@@ -12,7 +12,7 @@ import tempfile
 from pathlib import Path
 
 APP_NAME = "Vent Studio"
-APP_VERSION = "1.1"
+APP_VERSION = "1.1.0"
 
 _data_dir: Path | None = None
 _client_home: str = ""

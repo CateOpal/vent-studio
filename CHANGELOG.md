@@ -6,10 +6,10 @@ adhere to [Semantic Versioning](https://semver.org/).
 
 | Version | Date | Highlights |
 | :--- | :--- | :--- |
-| [1.1](#11--2026-11-03) | 2026-11-03 | Recording fixed in packaged builds, Chinese-only UI, lean repo |
+| [1.1.0](#110--2026-11-03) | 2026-11-03 | Recording fixed in packaged builds, Chinese-only UI, lean repo |
 | [1.0.0](#100--2026-11-03) | 2026-11-03 | First public release as **Vent Studio** |
 
-## [1.1] — 2026-11-03
+## [1.1.0] — 2026-11-03
 
 ### Changed
 

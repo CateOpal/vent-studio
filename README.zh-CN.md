@@ -4,7 +4,7 @@
 
 [![平台](https://img.shields.io/badge/platform-Windows%2010%20%7C%2011-0a7ea4?style=flat-square)](#-环境要求)
 [![Python](https://img.shields.io/badge/python-3.10%2B-3776ab?style=flat-square)](#-源码运行)
-[![版本](https://img.shields.io/badge/version-1.1-8b5cf6?style=flat-square)](CHANGELOG.md)
+[![版本](https://img.shields.io/badge/version-1.1.0-8b5cf6?style=flat-square)](CHANGELOG.md)
 [![许可](https://img.shields.io/badge/license-MIT-22c55e?style=flat-square)](LICENSE.md)
 [![界面](https://img.shields.io/badge/UI-%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87-ef4444?style=flat-square)](#-常见问题)
 
