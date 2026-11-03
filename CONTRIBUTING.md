@@ -6,7 +6,7 @@ is a feature, not a limitation.
 ## Development setup
 
 ~~~bat
-git clone https://github.com/neverlove1129/vent-studio.git
+git clone https://github.com/CateOpal/vent-studio.git
 cd vent-studio
 python -m pip install -r requirements.txt
 python main.py

@@ -39,7 +39,7 @@ exe 旁边的便携目录 `data\` 里，删掉即干净。
 ## 🚀 源码运行
 
 ```bat
-git clone https://github.com/neverlove1129/vent-studio.git
+git clone https://github.com/CateOpal/vent-studio.git
 cd vent-studio
 python -m pip install -r requirements.txt
 python main.py
