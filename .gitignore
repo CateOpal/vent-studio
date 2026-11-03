@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# flet pack / PyInstaller output
+build/
+dist/
+*.spec
+
+# Runtime data (config, log, thumbnail cache) — written next to exe or in %APPDATA%
+data/
+
+# Editors / OS
+.vscode/
+.idea/
+Thumbs.db
+desktop.ini
+DS_Store

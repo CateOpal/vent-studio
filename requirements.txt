@@ -1,0 +1,4 @@
+flet==1.0.4
+flet-video==1.0.4
+capturekit[ffmpeg]>=0.1.0
+pillow>=10.0
