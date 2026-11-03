@@ -23,6 +23,13 @@ adhere to [Semantic Versioning](https://semver.org/).
 
 ### Fixed
 
+- **Recording was broken in packaged builds** ("壁纸窗口没有出现或被其它窗口盖住了").
+  The packaged app shipped without FFmpeg and capturekit had no way to find one, so both
+  the Window Graphics Capture path and the gdigrab fallback failed silently. The app now
+  resolves FFmpeg first, hands the path to capturekit through `CAPTUREKIT_FFMPEG`, offers
+  the FFmpeg download dialog before a recording starts, and reports the actual cause
+  instead of the generic window message.
+
 - **Status-bar save location did nothing** and left an invisible full-screen layer on
   top of the window, which made the whole UI look frozen. The dialog now returns its
   card again, and the "choose folder" action exists and closes the dialog.

@@ -319,6 +319,8 @@ class RecordMixin:
             time.sleep(0.4)
             waited += 0.4
         if not hwnd:
+            state.setdefault("reasons", []).append(
+                f"等了 {waited:.0f} 秒也没出现 Wallpaper Engine 渲染窗口")
             return False
         # 渲染窗口置顶（不激活）：被盖住时引擎/DWM 会停止出帧，画面就冻住
         self._prepare_record_window(hwnd)
@@ -408,7 +410,8 @@ class RecordMixin:
                            hwnd: int = 0) -> bool:
         try:
             import capturekit as ck
-        except Exception:
+        except Exception as exc:  # noqa: BLE001
+            state.setdefault("reasons", []).append(f"capturekit 不可用（{exc}）")
             return False
         target = None
         try:
@@ -423,6 +426,7 @@ class RecordMixin:
         except Exception:
             return False
         if target is None:
+            state.setdefault("reasons", []).append("capturekit 没找到渲染窗口")
             return False
         rec = None
         try:
@@ -475,7 +479,8 @@ class RecordMixin:
             except Exception:
                 pass
             rec = None
-        except Exception:
+        except Exception as exc:  # noqa: BLE001
+            state.setdefault("reasons", []).append(f"capturekit 录制出错（{exc}）")
             return False
         finally:
             if rec is not None:
@@ -488,6 +493,7 @@ class RecordMixin:
     def _record_gdigrab(self, dur: float, raw: Path, state: dict) -> bool:
         ff = find_ffmpeg()
         if not ff:
+            state.setdefault("reasons", []).append("gdigrab 回退也需要 ffmpeg，但没有找到")
             return False
         self._ensure_visible(self._find_hwnd(REC_TITLE))
         # -an：只录画面，不录系统声音（音轨后期由 _mux 用壁纸自带音频合成）
@@ -537,6 +543,16 @@ class RecordMixin:
             raise RuntimeError("没有找到 wallpaper64.exe（Wallpaper Engine 未安装）")
         if target is None:
             raise RuntimeError("壁纸目录不存在，无法录制")
+        ff = find_ffmpeg()
+        if not ff:
+            raise RuntimeError(
+                "录制需要 FFmpeg，但本机没找到：请到「设置 → 组件」下载一份，或把 "
+                "ffmpeg.exe 放到 data\bin\ 里再试")
+        # capturekit 自己按 CAPTUREKIT_FFMPEG / PATH / imageio-ffmpeg 找 ffmpeg；
+        # 打包后 imageio-ffmpeg 不在包里，必须显式告诉它用我们找到的这一份
+        os.environ["CAPTUREKIT_FFMPEG"] = ff
+        self.log(f"录制使用 FFmpeg：{ff}", "debug")
+        state["reasons"] = []
         dur = self.record_seconds(wp)
         tmp = ws.CACHE_DIR / "mux"
         tmp.mkdir(parents=True, exist_ok=True)
@@ -561,7 +577,8 @@ class RecordMixin:
             self._close_we_window(exe, target)
         if not ok or not raw.is_file() or raw.stat().st_size < 8192:
             raw.unlink(missing_ok=True)
-            raise RuntimeError("录制失败：壁纸窗口没有出现或被其它窗口盖住了")
+            why = "；".join(state.get("reasons") or []) or "壁纸窗口没有出现或被其它窗口盖住了"
+            raise RuntimeError("录制失败：" + why)
         # 画面真正录到第几秒：容器写的时长不可信，必须 demux 一遍
         end = self._video_real_end(raw)
         self._last_record_dur = float(dur)

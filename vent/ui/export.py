@@ -230,6 +230,14 @@ class ExportMixin:
             if await self.ensure_ffmpeg() is None:
                 self.toast("没有 ffmpeg，改为分别导出画面与音频",
                            ft.Icons.INFO_ROUNDED, T.WARN)
+        if mode == "rec" and find_ffmpeg() is None:
+            # 录制必须要有 ffmpeg：capturekit 用它编码，gdigrab 回退也用它
+            self.set_status("录制需要 FFmpeg…")
+            if await self.ensure_ffmpeg() is None:
+                self.set_status("录制需要 FFmpeg")
+                self.toast("录制需要 FFmpeg：请到「设置 → 组件」下载一份再试",
+                           ft.Icons.ERROR_OUTLINE_ROUNDED, T.DANGER)
+                return
         if mode == "rec":
             self.set_status(f"正在录制 {wp.title[:20]}…")
             self.toast("录制期间壁纸窗口会顶在最前面（防止画面中途冻住），录完自动收起",
